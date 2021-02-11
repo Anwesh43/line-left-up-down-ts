@@ -200,3 +200,25 @@ class LineLeftUpDown {
         this.curr.startUpdating(cb)
     }
 }
+
+class Renderer {
+
+    lrud : LineLeftUpDown = new LineLeftUpDown()
+    animator : Animator = new Animator()
+
+    render(context : CanvasRenderingContext2D) {
+        this.lrud.draw(context)
+    }
+
+    handleTap(cb : Function) {
+        this.lrud.startUpdating(() => {
+            this.animator.start(() => {
+                cb()
+                this.lrud.update(() => {
+                    this.animator.stop()
+                    cb()
+                })
+            })
+        })
+    }
+}
