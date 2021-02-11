@@ -28,3 +28,35 @@ class ScaleUtil {
         return Math.sin(scale * Math.PI)
     }
 }
+
+class DrawingUtil {
+
+    static drawLine(context : CanvasRenderingContext2D,
+         x1 : number, y1 : number, x2 : number, y2 : number) {
+        context.beginPath()
+        context.moveTo(x1, y1)
+        context.lineTo(x2, y2)
+        context.stroke()
+    }
+
+    static drawLeftRightUpDown(context : CanvasRenderingContext2D, scale : number) {
+        const sf : number = ScaleUtil.sinify(scale)
+        const sf1 : number = ScaleUtil.divideScale(sf, 0, parts)
+        const sf2 : number = ScaleUtil.divideScale(sf, 1, parts)
+        const sf3 : number = ScaleUtil.divideScale(sf, 2, parts)
+        const sf4 : number = ScaleUtil.divideScale(sf, 3, parts)
+        const size : number = Math.min(w, h) / sizeFactor 
+        context.save()
+        context.translate(w / 2, h / 2)
+        DrawingUtil.drawLine(context, size * sf2, 0, size * sf1, 0)
+        DrawingUtil.drawLine(context, size, size * sf4, size, size * sf3)
+        context.restore()
+    }
+
+    static drawLRUDNode(context : CanvasRenderingContext2D, i : number, scale : number) {
+        context.lineCap = 'round'
+        context.lineWidth = Math.min(w, h) / strokeFactor 
+        context.strokeStyle = colors[i]
+        DrawingUtil.drawLeftRightUpDown(context, scale)
+    }
+}
